@@ -83,9 +83,9 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new HtmlWebpackPlugin( {
+		IS_DEV ? new HtmlWebpackPlugin( {
 			template: path.resolve( __dirname, 'src', 'index.html' ),
-		} ),
+		} ) : () => {},
 		new MiniCssExtractPlugin( {
 			filename: 'css/style.css',
 		} ),
