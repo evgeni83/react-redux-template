@@ -1,6 +1,6 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require( 'path' );
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
 module.exports = {
@@ -12,7 +12,7 @@ module.exports = {
 		path: path.resolve( __dirname, 'dist' ),
 		filename: 'js/bundle.min.js',
 		clean: true,
-		publicPath: '/'
+		publicPath: '/',
 	},
 	devServer: {
 		port: 3333,
@@ -23,19 +23,51 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
-                exclude: '/node_modules/',
-                use: {
-					loader: 'babel-loader'
-				}
+				test: /\.jsx?$/,
+				exclude: /node_modules/,
+				use: {
+					loader: 'babel-loader',
+				},
 			},
 			{
-				test: /\.scss$/,
+				test: /\.module\.s[ac]ss$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					'css-loader',
-					'sass-loader'
-				]
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true,
+							modules: {
+								localIdentName: '[path][name]__[local]--[hash:base64:5]',
+							},
+						},
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true,
+						},
+					},
+				],
+			},
+			{
+				test: /\.s[ac]ss$/,
+				exclude: /\.module.(s[ac]ss)$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: true,
+						},
+					},
+					{
+						loader: 'sass-loader',
+						options: {
+							sourceMap: true,
+						},
+					},
+				],
 			},
 			{
 				test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -44,25 +76,25 @@ module.exports = {
 					outputPath: 'img',
 				},
 			},
-		]
-    },
-    plugins: [
+		],
+	},
+	plugins: [
 		new HtmlWebpackPlugin( {
-			template: path.resolve( __dirname, 'src', 'index.html' )
+			template: path.resolve( __dirname, 'src', 'index.html' ),
 		} ),
 		new MiniCssExtractPlugin( {
 			filename: 'css/style.css',
 		} ),
 	],
-    optimization: {
-        minimize: true,
-        minimizer: [new TerserPlugin({
-            terserOptions: {
-                format: {
-                    comments: false,
-                },
-            },
-            extractComments: false,
-        })],
-    },
-}
+	optimization: {
+		minimize: true,
+		minimizer: [ new TerserPlugin( {
+			terserOptions: {
+				format: {
+					comments: false,
+				},
+			},
+			extractComments: false,
+		} ) ],
+	},
+};
