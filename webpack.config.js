@@ -3,14 +3,17 @@ const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const TerserPlugin = require( 'terser-webpack-plugin' );
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 module.exports = {
+	mode: IS_DEV ? "development" : "production",
 	resolve: {
 		extensions: [ '.js', '.jsx' ],
 	},
-	entry: path.resolve( __dirname, 'src', 'index.js' ),
+	entry: { main: path.resolve( __dirname, 'src', 'index.js' ) },
 	output: {
 		path: path.resolve( __dirname, 'dist' ),
-		filename: 'js/bundle.min.js',
+		filename: 'js/[name].js',
 		clean: true,
 		publicPath: '/',
 	},
@@ -20,6 +23,7 @@ module.exports = {
 		hot: true,
 		historyApiFallback: true,
 	},
+	devtool: IS_DEV ? 'eval-cheap-source-map' : false,
 	module: {
 		rules: [
 			{
@@ -96,5 +100,14 @@ module.exports = {
 			},
 			extractComments: false,
 		} ) ],
+		splitChunks: {
+			cacheGroups: {
+				commons: {
+					test: /[\\/]node_modules[\\/]/,
+					name: 'vendors',
+					chunks: 'all',
+				},
+			},
+		},
 	},
 };
