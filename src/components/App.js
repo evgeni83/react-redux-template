@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCashAction, getCashAction } from './store/cashReducer';
-import { addCustomerAction, removeCustomerAction } from './store/customerReducer';
-import { fetchCustomersAction } from './asyncActions/fetchCustomersAction';
+import { addCashAction, getCashAction } from '../store/cashReducer';
+import { addCustomerAction, removeCustomerAction } from '../store/customerReducer';
+import { fetchCustomersAction } from '../asyncActions/fetchCustomersAction';
 
 export default function App() {
 	const dispatch = useDispatch();

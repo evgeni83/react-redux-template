@@ -6,7 +6,7 @@ const TerserPlugin = require( 'terser-webpack-plugin' );
 const IS_DEV = process.env.NODE_ENV === 'development';
 
 module.exports = {
-	mode: IS_DEV ? "development" : "production",
+	mode: process.env.NODE_ENV || 'development',
 	resolve: {
 		extensions: [ '.js', '.jsx' ],
 	},
@@ -21,7 +21,6 @@ module.exports = {
 		port: 3333,
 		open: true,
 		hot: true,
-		historyApiFallback: true,
 	},
 	devtool: IS_DEV ? 'eval-cheap-source-map' : false,
 	module: {
@@ -36,11 +35,11 @@ module.exports = {
 			{
 				test: /\.module\.s[ac]ss$/,
 				use: [
-					MiniCssExtractPlugin.loader,
+					IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: IS_DEV,
 							modules: {
 								localIdentName: '[name]__[local]--[hash:base64:5]',
 							},
@@ -49,7 +48,7 @@ module.exports = {
 					{
 						loader: 'sass-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: IS_DEV,
 						},
 					},
 				],
@@ -58,17 +57,17 @@ module.exports = {
 				test: /\.s[ac]ss$/,
 				exclude: /\.module.(s[ac]ss)$/,
 				use: [
-					MiniCssExtractPlugin.loader,
+					IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
 					{
 						loader: 'css-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: IS_DEV,
 						},
 					},
 					{
 						loader: 'sass-loader',
 						options: {
-							sourceMap: true,
+							sourceMap: IS_DEV,
 						},
 					},
 				],
@@ -85,7 +84,8 @@ module.exports = {
 	plugins: [
 		IS_DEV ? new HtmlWebpackPlugin( {
 			template: path.resolve( __dirname, 'src', 'index.html' ),
-		} ) : () => {},
+		} ) : () => {
+		},
 		new MiniCssExtractPlugin( {
 			filename: 'css/style.css',
 		} ),
