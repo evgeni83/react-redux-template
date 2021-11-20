@@ -33,7 +33,7 @@ module.exports = {
 				},
 			},
 			{
-				test: /\.module\.s[ac]ss$/,
+				test: /\.module\.s?[ac]ss$/,
 				use: [
 					IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
 					{
@@ -45,6 +45,7 @@ module.exports = {
 							},
 						},
 					},
+					'postcss-loader',
 					{
 						loader: 'sass-loader',
 						options: {
@@ -54,7 +55,7 @@ module.exports = {
 				],
 			},
 			{
-				test: /\.s[ac]ss$/,
+				test: /\.s?[ac]ss$/,
 				exclude: /\.module.(s[ac]ss)$/,
 				use: [
 					IS_DEV ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -64,6 +65,7 @@ module.exports = {
 							sourceMap: IS_DEV,
 						},
 					},
+					'postcss-loader',
 					{
 						loader: 'sass-loader',
 						options: {
@@ -87,7 +89,7 @@ module.exports = {
 		} ) : () => {
 		},
 		new MiniCssExtractPlugin( {
-			filename: 'css/style.css',
+			filename: 'css/[name].css',
 		} ),
 	],
 	optimization: {

@@ -30,6 +30,9 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
     "mini-css-extract-plugin": "^2.4.4",
+    "postcss": "^8.3.11",
+    "postcss-loader": "^6.2.0",
+    "postcss-preset-env": "^7.0.1",
     "sass": "^1.32.12",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
@@ -40,7 +43,6 @@
   },
   "browserslist": [
     "last 2 versions",
-    "> 0.5%",
-    "not dead"
+    "> 0.2%"
   ]
 }
