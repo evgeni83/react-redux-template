@@ -1,5 +1,5 @@
 module.exports = {
-	sourcemap: true,
+	sourcemap: process.env.NODE_ENV === 'development',
 	plugins: [
 		require( 'postcss-combine-media-query' ),
 		require( 'cssnano' )( {
