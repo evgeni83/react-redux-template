@@ -22,7 +22,7 @@ module.exports = {
 		open: true,
 		hot: true,
 	},
-	devtool: IS_DEV ? 'eval-cheap-source-map' : false,
+	devtool: IS_DEV ? 'source-map' : false,
 	module: {
 		rules: [
 			{
